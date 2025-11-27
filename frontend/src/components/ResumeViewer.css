@@ -1,0 +1,46 @@
+.resume-viewer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.resume-viewer.fullscreen {
+  width: 90vw;
+  height: 90vh;
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.resume-text {
+  font-family: "Arial", sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap; /* Keeps line breaks */
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #e74c3c;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.close-btn:hover {
+  background: #c0392b;
+}

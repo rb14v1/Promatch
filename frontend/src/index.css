@@ -1,0 +1,90 @@
+/* index.css - REVISED WITH CREAM/GOLD/TEAL THEME (Matching Image Palette) */
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+ 
+  color-scheme: light dark;
+  /* Updated to dark text color from the table scheme */
+  color: #3e3834;
+  /* The component now sets the background, so we remove the default one below */
+  /* background-color: #242424; */
+ 
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+ 
+a {
+  font-weight: 500;
+  /* Updated to the dark teal color from the table's "View Resume" button */
+  color: #0b7170;
+  text-decoration: inherit;
+}
+a:hover {
+  /* Darker teal hover */
+  color: #0a5d5f;
+}
+ 
+body {
+  margin: 0;
+  /*
+    We removed 'display: flex' and 'place-items: center'
+    to stop the global centering behavior.
+  */
+  min-width: 320px;
+}
+ 
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  /* Ensures the header text is dark */
+  color: #3e3834;
+}
+ 
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  /* Updated to the dark teal color from the table's "View Resume" button */
+  background-color: #0b7170;
+  /* Changed button text to white for contrast */
+  color: white;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  /* Darker teal hover color */
+  border-color: #0a5d5f;
+  /* Ensures background also darkens slightly on hover */
+  background-color: #0a5d5f;
+}
+button:focus,
+button:focus-visible {
+  /* Updated focus ring to teal */
+  outline: 4px auto #0b7170;
+}
+ 
+@media (prefers-color-scheme: light) {
+  :root {
+    /* Updated light mode text color to dark brown */
+    color: #3e3834;
+    /* Updated light mode background to cream */
+    background-color: #fcf8e8;
+  }
+  a:hover {
+    /* Updated light mode link hover to darker teal */
+    color: #0a5d5f;
+  }
+  button {
+    /* Updated light mode button background to teal */
+    background-color: #0b7170;
+    /* Ensures button text remains white */
+    color: white;
+  }
+
+}
