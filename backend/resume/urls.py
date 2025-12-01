@@ -2,7 +2,10 @@ from django.urls import path
 from .views import ResumeUploadView, ResumeSearchView, ResumeListView
 from . import views
 
-urlpatterns = [
+urlpatterns = [ 
+   
+
+
     # ✅ Upload endpoint
     path('upload/', ResumeUploadView.as_view(), name='resume-upload'),
 

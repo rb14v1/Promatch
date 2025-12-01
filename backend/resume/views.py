@@ -185,11 +185,12 @@ class ResumeSearchView(APIView):
         # -----------------------------
         # 2. Qdrant Search
         # -----------------------------
-        try:
-            all_results = search_collection(query_embedding, query_filter=query_filter, limit=1000)
-        except Exception as e:
-            return Response({'error': f'Qdrant primary search failed: {e}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
- 
+        
+           try:
+           all_results = search_collection(query_embedding, filter=query_filter, limit=1000)
+        except Exception as e:
+            return Response({'error': f'Qdrant primary search failed: {e}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
         # -----------------------------
         # 3. Python-side filters
         # -----------------------------

@@ -1,7 +1,8 @@
 import requests
 
 # --- Resume Upload ---
-upload_url = 'http://127.0.0.1:8000/upload/'
+upload_url = 'http://98.94.9.126/api/upload/'
+
 file_path = r'C:\Users\GowdaB\Downloads\Resume 2.pdf'
 
 with open(file_path, 'rb') as f:
@@ -15,7 +16,8 @@ except requests.exceptions.JSONDecodeError:
     print("Upload Response Text:", response.text)
 
 # --- Resume Search (POST) ---
-search_url = 'http://127.0.0.1:8000/search/'
+search_url = 'http://98.94.9.126/api/search/'
+
 search_payload = {'query': 'python developer'}
 
 search_response = requests.post(search_url, json=search_payload)
