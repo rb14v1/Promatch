@@ -10,7 +10,7 @@ export default function ViewAllPage() {
   useEffect(() => {
     const fetchResumes = async () => {
       try {
-        const res = await axios.get("http://127.0.0.1:8000/list/");
+        const res = await axios.get("http://98.94.9.126/api/list/");
         console.log("API Response:", res.data);
 
         if (Array.isArray(res.data)) {
@@ -211,7 +211,7 @@ export default function ViewAllPage() {
                     <td style={tdStyle}>
                       {resume.s3_url && (
                         <a
-                          href={`http://127.0.0.1:8000/proxy_resume/?file_url=${encodeURIComponent(
+                          href={`http://98.94.9.126/api/proxy_resume/?file_url=${encodeURIComponent(
                             resume.s3_url
                           )}`}
                           target="_blank"

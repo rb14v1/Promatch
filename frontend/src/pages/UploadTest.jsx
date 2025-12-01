@@ -15,11 +15,13 @@ export default function UploadTest() {
     formData.append('resume_file', file);
 
     try {
-      const res = await axios.post('http://127.0.0.1:8000/upload/', formData, {
-        headers: {
-          'Accept': 'application/json',
-        },
-      });
+      const res = await axios.post('http://98.94.9.126/api/upload/', formData, {
+  headers: {
+    "Accept": "application/json",
+    "Content-Type": "multipart/form-data"
+  },
+});
+
 
       console.log("✅ Upload successful:", res.data);
       setUploadStatus('Upload successful');

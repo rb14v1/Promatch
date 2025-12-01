@@ -11,7 +11,7 @@ export default function UploadPage() {
   const [sizeErrors, setSizeErrors] = useState([]);
   const [uploadResults, setUploadResults] = useState([]);
   const [uploadError, setUploadError] = useState("");
-  const [successMessage, setSuccessMessage] = useState(""); // ✅ Added success message
+  const [successMessage, setSuccessMessage] = useState("");
   const [department, setDepartment] = useState("");
   const [experience, setExperience] = useState("");
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -37,20 +37,7 @@ export default function UploadPage() {
   const isValidFile = (file) => /\.(docx|pdf)$/i.test(file.name);
   const isValidSize = (file) => file.size <= MAX_SIZE_MB * 1024 * 1024;
 
-  const convertDocxToPdf = async (file) => {
-    try {
-      const buf = await file.arrayBuffer();
-      const blob = new Blob([buf], { type: "application/pdf" });
-      return new File([blob], file.name.replace(/\.[^.]+$/, ".pdf"), {
-        type: "application/pdf",
-      });
-    } catch (e) {
-      console.error("Conversion failed", e);
-      return null;
-    }
-  };
-
-  // ✅ Upload to backend
+  // ✅ Upload to backend (Corrected)
   const uploadToBackend = async (file) => {
     console.log(`📤 Uploading "${file.name}"`);
 
@@ -60,9 +47,16 @@ export default function UploadPage() {
     formData.append("experience_years", experience);
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/upload/", formData, {
-        headers: { Accept: "application/json" },
-      });
+      const res = await axios.post(
+        "http://98.94.9.126/api/upload/",
+        formData,
+        {
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      );
+
       const metadata = res.data?.data;
       setUploadResults((prev) => [...prev, metadata]);
       setUploadError("");
@@ -72,7 +66,7 @@ export default function UploadPage() {
     }
   };
 
-  // ✅ Handle files (select or drag)
+  // ✅ Clean & correct file handler
   const handleFiles = async (selectedFilesArray) => {
     const validFiles = [];
 
@@ -86,14 +80,8 @@ export default function UploadPage() {
         continue;
       }
 
-      let finalFile = f;
-      if (/\.docx$/i.test(f.name)) {
-        const pdf = await convertDocxToPdf(f);
-        if (!pdf) continue;
-        finalFile = pdf;
-      }
-
-      validFiles.push(finalFile);
+      // 🚀 No conversion — original file only
+      validFiles.push(f);
     }
 
     setSelectedFiles(validFiles);
@@ -146,7 +134,7 @@ export default function UploadPage() {
       await uploadToBackend(file);
     }
 
-    // ✅ Success message
+    // Success message
     setSuccessMessage("✅ Upload Successful!");
     setTimeout(() => setSuccessMessage(""), 5000);
   };
@@ -164,7 +152,6 @@ export default function UploadPage() {
 
         <header className="upload-header">Resume Upload</header>
 
-        {/* ✅ Success confirmation message */}
         {successMessage && (
           <div
             style={{
@@ -202,7 +189,7 @@ export default function UploadPage() {
               textAlign: "left",
             }}
           >
-            {/* Step 1: Department Input */}
+            {/* Step 1 */}
             <div className="form-group" style={{ width: "100%" }}>
               <label
                 style={{
@@ -227,6 +214,7 @@ export default function UploadPage() {
                 </span>
                 Select Department
               </label>
+
               <select
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
@@ -239,6 +227,7 @@ export default function UploadPage() {
                 }}
               >
                 <option value="">-- Choose Department --</option>
+
                 <optgroup label="Human Resources">
                   <option>Junior HR</option>
                   <option>Senior HR</option>
@@ -246,6 +235,7 @@ export default function UploadPage() {
                   <option>Talent Acquisition</option>
                   <option>Learning & Development</option>
                 </optgroup>
+
                 <optgroup label="Engineering / IT">
                   <option>Software Development</option>
                   <option>DevOps</option>
@@ -254,6 +244,7 @@ export default function UploadPage() {
                   <option>Quality Assurance</option>
                   <option>Cybersecurity</option>
                 </optgroup>
+
                 <optgroup label="Sales & Marketing">
                   <option>Pre-Sales</option>
                   <option>Post-Sales</option>
@@ -261,6 +252,7 @@ export default function UploadPage() {
                   <option>Digital Marketing</option>
                   <option>Product Marketing</option>
                 </optgroup>
+
                 <optgroup label="Finance & Accounting">
                   <option>Accounting</option>
                   <option>Auditing</option>
@@ -270,7 +262,7 @@ export default function UploadPage() {
               </select>
             </div>
 
-            {/* Step 2: Experience Input */}
+            {/* Step 2 */}
             <div
               className="form-group"
               style={{
@@ -303,6 +295,7 @@ export default function UploadPage() {
                 </span>
                 Years of Experience
               </label>
+
               <input
                 type="number"
                 min="0"
@@ -320,7 +313,7 @@ export default function UploadPage() {
               />
             </div>
 
-            {/* Step 3: Upload Dropzone */}
+            {/* Step 3 Upload */}
             <div
               className={`upload-dropzone ${isDragOver ? "dragover" : ""}`}
               onDragOver={onDragOver}
@@ -358,14 +351,13 @@ export default function UploadPage() {
                 </span>
                 Upload Resume
               </label>
+
               <p className="upload-instruction">Drag Files to Upload</p>
-              <button
-                className="browse-btn"
-                onClick={openFileDialog}
-                type="button"
-              >
+
+              <button className="browse-btn" onClick={openFileDialog} type="button">
                 BROWSE FILES
               </button>
+
               <input
                 ref={fileInputRef}
                 type="file"
@@ -398,9 +390,7 @@ export default function UploadPage() {
                         }}
                       >
                         <span>✅ {file.name}</span>
-                        <span>
-                          {(file.size / (1024 * 1024)).toFixed(2)} MB
-                        </span>
+                        <span>{(file.size / (1024 * 1024)).toFixed(2)} MB</span>
                       </li>
                     ))}
                   </ul>
@@ -408,7 +398,7 @@ export default function UploadPage() {
               )}
             </div>
 
-            {/* Step 4: Final Submit Button */}
+            {/* Step 4 submit */}
             <button
               type="button"
               onClick={handleSubmit}
@@ -431,9 +421,7 @@ export default function UploadPage() {
 
           <section className="upload-right">
             <p className="upload-description">
-              Please follow the numbered steps in order: select department, add
-              experience, upload your resume, then click{" "}
-              <strong>Submit Details & Upload</strong> to confirm submission.
+              Follow all steps: choose department → set experience → upload resume → submit.
             </p>
 
             {uploadError && (
