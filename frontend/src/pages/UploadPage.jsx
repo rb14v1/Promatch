@@ -37,7 +37,19 @@ export default function UploadPage() {
   const isValidFile = (file) => /\.(docx|pdf)$/i.test(file.name);
   const isValidSize = (file) => file.size <= MAX_SIZE_MB * 1024 * 1024;
 
-  // ✅ Upload to backend (Corrected)
+  const convertDocxToPdf = async (file) => {
+    try {
+      const buf = await file.arrayBuffer();
+      const blob = new Blob([buf], { type: "application/pdf" });
+      return new File([blob], file.name.replace(/\.[^.]+$/, ".pdf"), {
+        type: "application/pdf",
+      });
+    } catch (e) {
+      console.error("Conversion failed", e);
+      return null;
+    }
+  };
+
   const uploadToBackend = async (file) => {
     console.log(`📤 Uploading "${file.name}"`);
 
@@ -47,16 +59,11 @@ export default function UploadPage() {
     formData.append("experience_years", experience);
 
     try {
-      const res = await axios.post(
-        "http://98.94.9.126/api/upload/",
-        formData,
-        {
-          headers: {
-            Accept: "application/json",
-          },
-        }
-      );
+     const res = await axios.post("http://98.94.9.126/api/upload/", formData, {
 
+
+        headers: { Accept: "application/json" },
+      });
       const metadata = res.data?.data;
       setUploadResults((prev) => [...prev, metadata]);
       setUploadError("");
@@ -66,7 +73,6 @@ export default function UploadPage() {
     }
   };
 
-  // ✅ Clean & correct file handler
   const handleFiles = async (selectedFilesArray) => {
     const validFiles = [];
 
@@ -80,8 +86,14 @@ export default function UploadPage() {
         continue;
       }
 
-      // 🚀 No conversion — original file only
-      validFiles.push(f);
+      let finalFile = f;
+      if (/\.docx$/i.test(f.name)) {
+        const pdf = await convertDocxToPdf(f);
+        if (!pdf) continue;
+        finalFile = pdf;
+      }
+
+      validFiles.push(finalFile);
     }
 
     setSelectedFiles(validFiles);
@@ -116,7 +128,6 @@ export default function UploadPage() {
     navigate("/");
   };
 
-  // ✅ Final submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!department || !experience || selectedFiles.length === 0) {
@@ -134,7 +145,6 @@ export default function UploadPage() {
       await uploadToBackend(file);
     }
 
-    // Success message
     setSuccessMessage("✅ Upload Successful!");
     setTimeout(() => setSuccessMessage(""), 5000);
   };
@@ -222,6 +232,7 @@ export default function UploadPage() {
                   padding: "10px 12px",
                   borderRadius: "8px",
                   width: "100%",
+                  boxSizing: "border-box",
                   border: "1px solid #ccc",
                   fontSize: "15px",
                 }}
@@ -306,14 +317,15 @@ export default function UploadPage() {
                 style={{
                   padding: "10px 12px",
                   borderRadius: "8px",
-                  width: "30%",
+                  width: "100%",
+                  boxSizing: "border-box",
                   border: "1px solid #ccc",
                   fontSize: "15px",
                 }}
               />
             </div>
 
-            {/* Step 3 Upload */}
+            {/* Step 3 */}
             <div
               className={`upload-dropzone ${isDragOver ? "dragover" : ""}`}
               onDragOver={onDragOver}
@@ -378,7 +390,13 @@ export default function UploadPage() {
                   }}
                 >
                   <strong style={{ color: "#fff" }}>Selected Files:</strong>
-                  <ul style={{ listStyle: "none", padding: 0, marginTop: "8px" }}>
+                  <ul
+                    style={{
+                      listStyle: "none",
+                      padding: 0,
+                      marginTop: "8px",
+                    }}
+                  >
                     {selectedFiles.map((file, i) => (
                       <li
                         key={i}
@@ -398,7 +416,7 @@ export default function UploadPage() {
               )}
             </div>
 
-            {/* Step 4 submit */}
+            {/* Step 4 */}
             <button
               type="button"
               onClick={handleSubmit}
@@ -406,12 +424,8 @@ export default function UploadPage() {
               style={{
                 width: "100%",
                 marginTop: "25px",
-                opacity:
-                  department && experience && selectedFiles.length > 0 ? 1 : 0.6,
-                cursor:
-                  department && experience && selectedFiles.length > 0
-                    ? "pointer"
-                    : "not-allowed",
+                opacity: department && experience && selectedFiles.length > 0 ? 1 : 0.6,
+                cursor: department && experience && selectedFiles.length > 0 ? "pointer" : "not-allowed",
               }}
               disabled={!department || !experience || selectedFiles.length === 0}
             >
@@ -420,10 +434,6 @@ export default function UploadPage() {
           </section>
 
           <section className="upload-right">
-            <p className="upload-description">
-              Follow all steps: choose department → set experience → upload resume → submit.
-            </p>
-
             {uploadError && (
               <div className="invalid-warning">
                 <strong>Upload Error:</strong> {uploadError}
@@ -442,8 +452,7 @@ export default function UploadPage() {
                       <strong>Email:</strong> {m.email || "Not provided"}
                     </p>
                     <p>
-                      <strong>Experience:</strong>{" "}
-                      {m.experience_years ?? "N/A"} years
+                      <strong>Experience:</strong> {m.experience_years ?? "N/A"} years
                     </p>
                     <p>
                       <strong>Department:</strong> {m.department || "N/A"}

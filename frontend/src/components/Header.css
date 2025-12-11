@@ -1,73 +1,141 @@
+/* Full Header Bar */
 .header {
-  background: #ffffff; /* Clean white background */
+  width: 100%;
+  background: #ffffff;
   border-bottom: 1px solid #eaeaea;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 0;
   z-index: 1000;
+  position: relative; /* required for ::after shadow */
+ 
+  /* ⭐ NEW: Prevent nav from disappearing at high zoom */
+  overflow-x: hidden;
+  white-space: nowrap;
 }
-
+ 
+/* ⭐ Add soft curved shadow on top-right to mimic left browser corner */
+.header::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 22px;
+  height: 22px;
+  background: radial-gradient(
+    circle at top right,
+    rgba(0, 0, 0, 0.12) 0%,
+    rgba(0, 0, 0, 0.04) 45%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  pointer-events: none;
+}
+ 
+/* Fully responsive header container */
 .header-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0.8rem 2rem;
+  width: 100%;
+ 
   display: flex;
   align-items: center;
   justify-content: space-between;
+ 
+  flex-wrap: wrap;
+  row-gap: 0.8rem;
+ 
+  min-width: 600px;
+ 
+  padding-right: 40px;   /* ⭐ FIX: prevents Retrieve from getting cut */
 }
-
+ 
+/* Logo Area */
 .logo-section {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 1rem;
+  flex-shrink: 0;
 }
-
+ 
 .logo {
-  height: 50px; /* Enlarged logo */
+  height: 65px;
   width: auto;
-  object-fit: contain;
 }
-
+ 
 .brand-name {
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: #2d3e50;
+  white-space: nowrap;
 }
-
+ 
+/* Navigation */
 .nav-links {
   display: flex;
   gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  flex-shrink: 1;
+ 
+  margin-right: 50px;   /* ⭐ SHIFT NAV LEFT BY 50px */
 }
-
+ 
+/* Each Nav Item */
 .nav-link {
   color: #2d3e50;
+  font-size: 1.2rem;
   text-decoration: none;
   font-weight: 600;
-  padding: 0.4rem 1rem;
-  border-radius: 20px; /* pill buttons */
-  transition: all 0.3s ease;
+  padding: 0.45rem 1.1rem;
+  border-radius: 25px;
+  transition: 0.3s ease;
+  white-space: nowrap;
 }
-
+ 
 .nav-link:hover {
   background: #2d3e50;
   color: #ffffff;
 }
-
-@media (max-width: 768px) {
+ 
+/* Tablet Responsiveness */
+@media (max-width: 900px) {
+  .header-container {
+    justify-content: center;
+    padding: 1rem 1.2rem;
+  }
+ 
+  .nav-links {
+    gap: 1.2rem;
+    margin-right: 0; /* prevent weird shift on small screens */
+  }
+}
+ 
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
   .header-container {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
   }
-
+ 
   .nav-links {
-    margin-top: 0.8rem;
-    gap: 1rem;
     flex-direction: column;
     width: 100%;
+    gap: 0.8rem;
+ 
+    margin-right: 0; /* avoid pushing nav off-screen */
   }
-
+ 
   .nav-link {
     width: 100%;
     text-align: center;
   }
+ 
+  .logo {
+    height: 55px;
+  }
+ 
+  .brand-name {
+    font-size: 1.5rem;
+  }
 }
+ 
+ 
