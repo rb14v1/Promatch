@@ -8,7 +8,7 @@ import UploadPageImage from '../assets/icons/uploadpage.png';
 import RetrievePageImage from '../assets/icons/retrievepage.png';
 import Footer from '../components/Footer.jsx';
 import Header from '../components/Header.jsx';
-import HomeTour from './HomeTour'; // ✅ Tour component imported
+import HomeTour from './HomeTour';
 import './Footer.css';
 
 export default function HomePage() {
@@ -16,13 +16,13 @@ export default function HomePage() {
 
   return (
     <div className="homepage-root">
-      {/* ✅ Interactive guided tour */}
-      <HomeTour />
 
-      {/* ✅ Shared Header */}
+      <HomeTour />
       <Header />
 
-      <main className="homepage-main two-column" style={{ marginTop: '80px' }}>
+      {/* ⬇⬇⬇ FIXED: Removed marginTop */}
+      <main className="homepage-main two-column">
+
         <section className="left-column">
           <p className="description-text" style={{ marginBottom: '20px' }}>
             The Resume Checker Application is a web-based tool designed to help
@@ -33,9 +33,9 @@ export default function HomePage() {
 
           <div className="action-section left-actions">
             <div className="action-buttons main-buttons">
-              {/* ✅ Upload Button */}
+
               <button
-                id="upload-btn" // 👈 Added for tour targeting
+                id="upload-btn"
                 className="action-btn"
                 onClick={() => navigate('/upload')}
                 aria-label="Upload File"
@@ -72,9 +72,8 @@ export default function HomePage() {
                 />
               </button>
 
-              {/* ✅ Retrieve Button */}
               <button
-                id="retrieve-btn" // 👈 Added for tour targeting
+                id="retrieve-btn"
                 className="action-btn"
                 onClick={() => navigate('/retrieve')}
                 aria-label="Retrieve File"
@@ -110,14 +109,14 @@ export default function HomePage() {
                   }}
                 />
               </button>
+
             </div>
           </div>
 
-          {/* ✅ View & Settings Cards */}
           <section className="nav-cards" style={{ marginTop: '30px' }}>
-            {/* View Card */}
+
             <div
-              id="view-card" // 👈 Added for tour targeting
+              id="view-card"
               className="card"
               onClick={() => navigate('/view')}
               style={{
@@ -146,9 +145,8 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Settings Card */}
             <div
-              id="settings-card" // 👈 Added for tour targeting
+              id="settings-card"
               className="card"
               onClick={() => navigate('/settings')}
               style={{
@@ -176,14 +174,17 @@ export default function HomePage() {
                 Settings
               </div>
             </div>
+
           </section>
+
         </section>
+
       </main>
 
       <div className="resume-logo" aria-hidden="true">
         RESUME
       </div>
-     
+
     </div>
   );
 }

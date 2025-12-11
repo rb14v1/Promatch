@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-uip9y0*mch2bxebzacp)sy4@a4zed#_wsgrorn54spak-st57*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["98.94.9.126", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # ✅ Application definition
 INSTALLED_APPS = [
@@ -95,9 +95,8 @@ USE_TZ = True
 
 # ✅ Static files
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'static'
-
-
+STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # ✅ Media files
 MEDIA_URL = '/media/'
@@ -110,7 +109,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True  # For development only
 # Or restrict:
 # CORS_ALLOWED_ORIGINS = [
-#  
+#     "http://localhost:5175",
+#     "http://127.0.0.1:5175",
+# ]
 
 # ✅ REST Framework
 REST_FRAMEWORK = {

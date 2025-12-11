@@ -8,12 +8,12 @@
   top: 0;
   z-index: 1000;
   position: relative; /* required for ::after shadow */
- 
+
   /* ⭐ NEW: Prevent nav from disappearing at high zoom */
   overflow-x: hidden;
   white-space: nowrap;
 }
- 
+
 /* ⭐ Add soft curved shadow on top-right to mimic left browser corner */
 .header::after {
   content: "";
@@ -30,23 +30,23 @@
   );
   pointer-events: none;
 }
- 
+
 /* Fully responsive header container */
 .header-container {
   width: 100%;
- 
+  
   display: flex;
   align-items: center;
   justify-content: space-between;
- 
+
   flex-wrap: wrap;
   row-gap: 0.8rem;
- 
+
   min-width: 600px;
- 
+
   padding-right: 40px;   /* ⭐ FIX: prevents Retrieve from getting cut */
 }
- 
+
 /* Logo Area */
 .logo-section {
   display: flex;
@@ -54,19 +54,19 @@
   gap: 1rem;
   flex-shrink: 0;
 }
- 
+
 .logo {
   height: 65px;
   width: auto;
 }
- 
+
 .brand-name {
   font-size: 1.8rem;
   font-weight: 700;
   color: #2d3e50;
   white-space: nowrap;
 }
- 
+
 /* Navigation */
 .nav-links {
   display: flex;
@@ -74,10 +74,10 @@
   flex-wrap: wrap;
   justify-content: flex-end;
   flex-shrink: 1;
- 
+
   margin-right: 50px;   /* ⭐ SHIFT NAV LEFT BY 50px */
 }
- 
+
 /* Each Nav Item */
 .nav-link {
   color: #2d3e50;
@@ -89,25 +89,25 @@
   transition: 0.3s ease;
   white-space: nowrap;
 }
- 
+
 .nav-link:hover {
   background: #2d3e50;
   color: #ffffff;
 }
- 
+
 /* Tablet Responsiveness */
 @media (max-width: 900px) {
   .header-container {
     justify-content: center;
     padding: 1rem 1.2rem;
   }
- 
+
   .nav-links {
     gap: 1.2rem;
     margin-right: 0; /* prevent weird shift on small screens */
   }
 }
- 
+
 /* Mobile Responsiveness */
 @media (max-width: 600px) {
   .header-container {
@@ -115,27 +115,25 @@
     align-items: center;
     text-align: center;
   }
- 
+
   .nav-links {
     flex-direction: column;
     width: 100%;
     gap: 0.8rem;
- 
+
     margin-right: 0; /* avoid pushing nav off-screen */
   }
- 
+
   .nav-link {
     width: 100%;
     text-align: center;
   }
- 
+
   .logo {
     height: 55px;
   }
- 
+
   .brand-name {
     font-size: 1.5rem;
   }
 }
- 
- 

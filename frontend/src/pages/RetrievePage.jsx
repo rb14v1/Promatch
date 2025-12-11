@@ -193,7 +193,7 @@ export default function RetrievePage() {
         >
           Retrieve Resumes
         </h2>
- 
+
         <p
           className="retrieve-subtitle"
           style={{
@@ -571,5 +571,3 @@ export default function RetrievePage() {
     </div>
   );
 }
- 
- 

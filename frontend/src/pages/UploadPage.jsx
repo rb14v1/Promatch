@@ -59,9 +59,7 @@ export default function UploadPage() {
     formData.append("experience_years", experience);
 
     try {
-     const res = await axios.post("http://98.94.9.126/api/upload/", formData, {
-
-
+      const res = await axios.post("http://127.0.0.1:8000/upload/", formData, {
         headers: { Accept: "application/json" },
       });
       const metadata = res.data?.data;
@@ -424,8 +422,12 @@ export default function UploadPage() {
               style={{
                 width: "100%",
                 marginTop: "25px",
-                opacity: department && experience && selectedFiles.length > 0 ? 1 : 0.6,
-                cursor: department && experience && selectedFiles.length > 0 ? "pointer" : "not-allowed",
+                opacity:
+                  department && experience && selectedFiles.length > 0 ? 1 : 0.6,
+                cursor:
+                  department && experience && selectedFiles.length > 0
+                    ? "pointer"
+                    : "not-allowed",
               }}
               disabled={!department || !experience || selectedFiles.length === 0}
             >
@@ -434,6 +436,8 @@ export default function UploadPage() {
           </section>
 
           <section className="upload-right">
+            
+
             {uploadError && (
               <div className="invalid-warning">
                 <strong>Upload Error:</strong> {uploadError}
@@ -452,7 +456,8 @@ export default function UploadPage() {
                       <strong>Email:</strong> {m.email || "Not provided"}
                     </p>
                     <p>
-                      <strong>Experience:</strong> {m.experience_years ?? "N/A"} years
+                      <strong>Experience:</strong>{" "}
+                      {m.experience_years ?? "N/A"} years
                     </p>
                     <p>
                       <strong>Department:</strong> {m.department || "N/A"}
